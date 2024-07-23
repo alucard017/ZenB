@@ -1,0 +1,232 @@
+//Some crucial JS Notes to lookout
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//Higher order functions vs first class functions
+// "use strict";
+// const oneWord = function (str) {
+//   return str.replace(/ /g, "").toLowerCase();
+// };
+// const upperFirstWord = function (str) {
+//   const [firstWord, ...others] = str.split(" ");
+//   return [
+//     firstWord.replace(firstWord[0], firstWord[0].toUpperCase()),
+//     ...others,
+//   ].join(" ");
+// };
+// const transformer = function (str, fn) {
+//   // console.log(fn(str));
+//   if (fn == oneWord)
+//     return function () {
+//       console.log(`HIIIIIIIIII, ${fn(str)}`);
+//     };
+// };
+// const show = transformer("I am Apurba Sundar Nayak", oneWord);
+// show(); //closure
+// // document.body.addEventListener(
+// //   "click",
+// //   transformer("I am Apurba Sundar Nayak", upperFirstWord)
+// // );
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//Call, apply and bind
+
+"use strict";
+
+// const IndianFlight = {
+//   airline: "Indian Airways",
+//   idCode: "IAR",
+//   bookings: [],
+//   book(flightName, name) {
+//     console.log(
+//       `Flight is booked by ${name} on ${this.airline} with Code ${this.idCode}${flightName}.`
+//     );
+//     this.bookings.push({ flight: `${this.idCode}${flightName}`, name });
+//   },
+// };
+
+// const book = IndianFlight.book;
+// const EuroFlight = {
+//   airline: "European Airways",
+//   idCode: "EAR",
+//   bookings: [],
+// };
+
+// //call method
+// IndianFlight.book(239, "Apurba Sundar");
+// book.call(EuroFlight, 53, "Abhijeet Kundu");
+
+// //apply method
+// // it works the same as the call method but the only difference is it receives the array of parameters instead of parameters solely.
+// const flightData = [89, "Shubham bankai"];
+// book.apply(EuroFlight, flightData);
+// // console.log(EuroFlight);
+
+// //bind method
+// const bookeu = book.bind(EuroFlight);
+// bookeu(23,'Lolpi');
+
+// //special case to fix any parameter in bind.
+// //It is called Partial Applications where some part is fixed before.
+// const bookEU53 = book.bind(EuroFlight,53);
+// bookEU53('DOpyaza');
+
+// //With event listeners
+// IndianFlight.planes = 200;
+// IndianFlight.buyPlane = function () {
+//   console.log(this);
+//   this.planes++;
+//   console.log(this.planes);
+// };
+
+// //following code snippet will give error as here this key word will bind to the one which is handled by the eventlistener not the needed object
+// // document.querySelector(".movements").addEventListener("click", IndianFlight.buyPlane);
+// //hence modifying the code by the use of bind method
+// document.querySelector(".movements").addEventListener("click", IndianFlight.buyPlane.bind(IndianFlight));
+
+// //Patrial Applications Illustrated
+// const addTAX = (rate, value) => value + value * rate;
+// const addVAT = addTAX.bind(null, 0.24);
+// console.log(addVAT(1000));
+// console.log(addTAX(0.24, 1000));
+
+// //Function returning a function.
+// const addTAX = function (rate) {
+//   return function (value) {
+//     return value + value * rate;
+//   };
+// };
+// const addVAT = addTAX(0.2);
+// console.log(addVAT(1000));
+// console.log(addVAT(200));
+
+//////////////////////////-------------------setTimeout() & setInterval()--------------------------//////////////////////////////
+
+//setTimeout()
+//has two parameters 1. Callback 2. Number in milisec to wait
+
+// const msg = function () {
+//   let i = 1;
+//   console.log(`Hello World`);
+//   console.log("You missing me ?🥺");
+//   const id = setInterval(() => {
+//     console.log(`I miss you too`);
+//     console.log(`I miss you.${i} times😍`);
+//     i++;
+//     if (i > 5) clearInterval(id);
+//   }, 1000);
+// };
+// setTimeout(msg, 4000);
+
+//////////////////////////-------------------setTimeout() & setInterval()--------------------------//////////////////////////////
+
+///////////////////////------------------Some and Every------------------------//////////////////////////////////////
+
+// //some and every
+// //every returns boolean value i.e true only when every array elements pass the function
+// //some returns true if there is any value which passes the function.
+
+// const num = [10, 20, 30, 40, 50];
+// const val = num.every((number) => number >= 10); //true
+// const val1 = num.every((number) => number > 10); //false
+// const val2 = num.some((number) => number > 10); //true
+// console.log(val,val1,val2);
+
+///////////////////////------------------Some and Every------------------------//////////////////////////////////////
+
+////////////////////////-------------Map, Filter and Reduce------------------///////////////////////////////////////
+
+// //map
+// // it maps every element to a certain rule provided by the callback
+// const num = [1, 2, 3, 4, 5, 6];
+// const mapped = num.map((num) => num * 2);
+// console.log(mapped);
+
+// const names = ["Apurba Sundar", "Abhijeet Kundu", "Shubham Bankai"];
+// names.forEach((name) => {
+//   console.log(name.toLowerCase().split(" ").map((n) => n[0]).join(''));
+// });
+
+// //filter
+// // it filters every element to a certain rule provided by the callback
+// const num = [1, 2, 3, 4, 5, 6];
+// const mapped = num.filter((num) => num > 2);
+// console.log(mapped);
+
+// //find
+// const num = [1, 2, 3, 4, 5, 6];
+// const mapped = num.find((num) => num > 2);
+// console.log(mapped); //only 3 will be printed.
+
+//Note that find() only returns the first matching element unlike the filter() which returns all the matching elements.
+//Also find() return only one element while filter() returns an array of elements.
+//These methods work on iterables like objects.
+
+
+// //reduce
+// // it reduces every element to a certain value provided by the callback
+// const num = [1, 2, 3, 4, 5, 6];
+// const sum = num.reduce((sum, n) => {
+//   return sum + n;
+// }, 10);
+// console.log(sum);
+
+////////////////////////-------------Map, Filter and Reduce------------------///////////////////////////////////////
+
+////////////////////////////////////////////----------IIFE--------------//////////////////////////////////////////
+
+// //Immedieately invoked function expressions (IIFE)
+// //IIFE is created to enhance the Data encapsulation and Data Abstraction very easily and efficient.
+// //Scopes are defined in the scope of an function is private to this scope only. This is main aim for IIFE
+// //But as ES6 defines new variable types like let, const the IIFE loses its significance as let and const are block scoped and var which is avoided is function socped.
+
+// //regular functions
+// (function(){
+//   console.log("IIFE");
+// })();
+
+// //arrow functions
+// (()=>{
+//   console.log("IIFE2");
+// })();
+
+////////////////////////////////////////////----------IIFE--------------//////////////////////////////////////////
+
+////////////////////////////////////////-------------Numbers------------//////////////////////////////////////////
+
+console.log(23 === 23.0); //true
+console.log(0.1 + 0.2 === 0.3); //false, because the floating operation in JS is not efficient and produces incorrect results
+console.log(Number("23")); // 23 as a number
+console.log(+"23"); // 23 as a number
+
+//parsing
+console.log(Number.parseInt("30pixels", 10)); //30 in decimal format
+//parsing only extracts the number from the string
+//Note only if the string starts with a number
+console.log(Number.parseFloat("    30.5px   ", 10)); //30.5 in decimal format
+console.log(Number.parseInt("30.5px", 10)); //30 only
+
+//checks the value is NaN
+console.log(Number.isNaN("20")); // false
+console.log(Number.isNaN(20)); // false
+console.log(Number.isNaN("23x")); // true
+console.log(Number.isNaN(23 / 0)); // false but should be true as it is not defined but valye here becomes Infinity
+
+//best method to test if a number is Finite or a value is a number or not
+console.log(Number.isFinite(23)); // true
+console.log(Number.isFinite(23 / 0)); // false
+console.log(Number.isFinite("23")); // false
+
+//pick a random number from minimum to maximum
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min) + 1) + min;
+
+//Rounding up the Decimals
+//Note that toFixed returns the result of rounding as a string
+console.log((2.7).toFixed(0)); //3
+console.log((2.7).toFixed(1)); //2.7
+console.log((2.7).toFixed(2)); //2.70
+console.log((2.7).toFixed(3)); //2.700
+console.log(+(2.345).toFixed(2)); //2.35 in Number
+
+
+////////////////////////////////////////-------------Numbers------------//////////////////////////////////////////

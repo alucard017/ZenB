@@ -68,10 +68,6 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-
 const currencies = new Map([
   ["INR", "Indian Rupees"],
   ["USD", "United States dollar"],
@@ -115,11 +111,127 @@ const calcDisplayBalance = function (movements) {
 };
 calcDisplayBalance(account1.movements);
 
-
-
+const calcDisplaySummary = function (movements) {
+  const deposits = movements
+    .filter((ele) => ele > 0)
+    .reduce((sum, ele) => sum + ele, 0);
+  labelSumIn.textContent = `${deposits} ₹`;
+  const withdrawals = movements
+    .filter((ele) => ele < 0)
+    .reduce((sum, ele) => sum + ele, 0);
+  labelSumOut.textContent = `${Math.abs(withdrawals)} ₹`;
+  const interest = movements
+    .filter((ele) => ele > 0)
+    .map((ele) => (ele * 1.2) / 100)
+    .filter((ele) => ele >= 1)
+    .reduce((sum, ele) => sum + ele, 0);
+  labelSumInterest.textContent = `${interest} ₹`;
+};
+calcDisplaySummary(account1.movements);
 /////////////////////////////////////////////////
 
-const deposits = movements.filter((ele) => ele > 0);
-const withdrawals = movements.filter((ele) => ele < 0);
+//find() method
+//it's used to find one elements in the array based on the condition.
+//first element which is true for the condition
+//here first withdrawal
+const account = accounts.find(ele=>ele.username === 'as');
+console.log(account);
 
 // console.log(sumBalance);
+
+// "use strict";
+
+// const IndianFlight = {
+//   airline: "Indian Airways",
+//   idCode: "IAR",
+//   bookings: [],
+//   book(flightName, name) {
+//     console.log(
+//       `Flight is booked by ${name} on ${this.airline} with Code ${this.idCode}${flightName}.`
+//     );
+//     this.bookings.push({ flight: `${this.idCode}${flightName}`, name });
+//   },
+// };
+
+// const book = IndianFlight.book;
+// const EuroFlight = {
+//   airline: "European Airways",
+//   idCode: "EAR",
+// bookings: [],
+// };
+
+// //call method
+// IndianFlight.book(239, "Apurba Sundar");
+// book.call(EuroFlight, 53, "Abhijeet Kundu");
+
+// //apply method
+// // it works the same as the call method but the only difference is it receives the array of parameters instead of parameters solely.
+// const flightData = [89, "Shubham bankai"];
+// book.apply(EuroFlight, flightData);
+// // console.log(EuroFlight)
+
+// //bind method
+// const bookeu = book.bind(EuroFlight);
+// bookeu(23, "Lolpi");
+
+// //special case to fix any parameter in bind.
+// const bookEU53 = book.bind(EuroFlight, 53);
+// bookEU53("DOpyaza");
+
+// //With event listeners
+// IndianFlight.planes = 200;
+// IndianFlight.buyPlane = function () {
+//   console.log(this);
+//   this.planes++;
+//   console.log(this.planes);
+// };
+
+// //following code snippet will give error as here this key word will bind to the one which is handled by the eventlistener not the needed object
+// // document.querySelector(".movements").addEventListener("click", IndianFlight.buyPlane);
+// //hence modifying the code by the use of bind method
+// document.querySelector(".movements").addEventListener("click", IndianFlight.buyPlane.bind(IndianFlight));
+
+//setTimeout()
+//has two parameters 1. Callback 2. Number in milisec to wait
+
+// const msg = function () {
+//   let i = 1;
+//   console.log(`Hello World`);
+//   console.log("You missing me ?🥺");
+//   const id = setInterval(() => {
+//     console.log(`I miss you too`);
+//     console.log(`I miss you.${i} times😍`);
+//     i++;
+//     if (i > 5) clearInterval(id);
+//   }, 1000);
+// };
+// setTimeout(msg, 4000);
+
+// //some and every
+// //every returns boolean value i.e true only when every array elements pass the function
+// //some returns true if there is any value which passes the function.
+
+// const num = [10, 20, 30, 40, 50];
+// const val = num.every((number) => number >= 10); //true
+// const val1 = num.every((number) => number > 10); //false
+// const val2 = num.some((number) => number > 10); //true
+// console.log(val,val1,val2);
+
+// //map
+// // it maps every element to a certain rule provided by the callback
+// const num = [1, 2, 3, 4, 5, 6];
+// const sum = num.reduce((sum, n) => {
+//   return sum + n;
+// }, 10);
+// console.log(sum);
+
+// const names = ["Apurba Sundar", "Abhijeet Kundu", "Shubham Bankai"];
+// names.forEach((name) => {
+//   console.log(
+//     name
+//       .toLowerCase()
+//       .split(" ")
+//       .map((n) => n[0])
+//       .join("")
+//   );
+// });
